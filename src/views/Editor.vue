@@ -2,31 +2,40 @@
   <div class="editor-container">
     <a-layout>
       <a-layout-sider width="300" style="background: yellow">
-        <div class="sidebar-container">
-          组件列表
-        </div>
+        <div class="sidebar-container">组件列表</div>
       </a-layout-sider>
       <a-layout style="padding: 0 24px 24px">
         <a-layout-content class="preview-container">
           <p>画布区域</p>
-          <div class="preview-list" id="canvas-area"></div>
+          <div class="preview-list" id="canvas-area">
+            <component v-for="com in coms" :key="com.id" :is="com.name" v-bind="com.props" />
+          </div>
         </a-layout-content>
       </a-layout>
-      <a-layout-sider
-        width="300"
-        style="background: purple"
-        class="settings-panel"
-      >
-        组件属性
-      </a-layout-sider>
+      <a-layout-sider width="300" style="background: purple" class="settings-panel"> 组件属性 </a-layout-sider>
     </a-layout>
   </div>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
+<script lang="ts">
+import { defineComponent, reactive } from "vue";
+import { useStore } from "vuex";
+import { GlobalDataProps } from "../store/index";
+import LText from "../components/LText.vue";
 
-export default defineComponent({})
+export default defineComponent({
+  name: "editor",
+  components: {
+    "l-text": LText,
+  },
+  setup() {
+    const store = useStore<GlobalDataProps>();
+    const coms = reactive(store.state.editor.components);
+    return {
+      coms,
+    };
+  },
+});
 </script>
 
 <style>

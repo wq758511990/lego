@@ -9,14 +9,12 @@
     <a-layout-content class="home-layout">
       <router-view> </router-view>
     </a-layout-content>
-    <a-layout-footer>
-      @ 慕课网 (imooc.com) 版权所有 | 津ICP备xxxxxxxxxxxxxxxxxxx
-    </a-layout-footer>
+    <a-layout-footer> @ 慕课网 (imooc.com) 版权所有 | 津ICP备xxxxxxxxxxxxxxxxxxx </a-layout-footer>
   </a-layout>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { defineComponent, reactive } from "vue";
 import { useStore } from "vuex";
 import UserProfile from "../components/UserProfile.vue";
 import { GlobalDataProps } from "../store/index";
@@ -24,14 +22,14 @@ export default defineComponent({
   name: "Index",
   setup() {
     const store = useStore<GlobalDataProps>();
-    const user = computed(() => store.state.user);
+    const user = reactive(store.state.user);
     return {
-      user
+      user,
     };
   },
   components: {
-    "user-profile": UserProfile
-  }
+    "user-profile": UserProfile,
+  },
 });
 </script>
 
