@@ -1,5 +1,5 @@
-import { Module } from "vuex";
-import { GlobalDataProps } from "./index";
+import { Module } from 'vuex'
+import { GlobalDataProps } from './index' 
 
 export interface UserProps {
   isLogin: boolean;
@@ -7,18 +7,15 @@ export interface UserProps {
 }
 
 const user: Module<UserProps, GlobalDataProps> = {
-  state: {
-    isLogin: false
-  },
   mutations: {
     login(state) {
-      state.isLogin = true; // 覆盖原有的值
-      state.userName = "wzx";
+      state.isLogin = true
+      state.userName = 'viking'
     },
     logout(state) {
-      state.isLogin = false;
+      state.isLogin = false
     }
-  }
-};
+  }  
+}
 
-export default user;
+export default user

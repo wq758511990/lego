@@ -1,11 +1,24 @@
 <template>
   <div class="props-table">
-    <div v-for="(value, key) in finalProps" :key="key" class="prop-item">
-      <span class="label" v-if="value.text">{{ value.text }}</span>
+    <div
+      v-for="(value, key) in finalProps"
+      :key="key"
+      class="prop-item"
+    >
+      <span class="label" v-if="value.text">{{value.text}}</span>
       <div class="prop-component">
-        <component :is="value.component" v-if="value" :[value.valueProp]="value.value" v-bind="value.extraProps" v-on="value.events">
+        <component
+          :is="value.component" 
+          :[value.valueProp]="value.value" 
+          v-bind="value.extraProps"
+          v-on="value.events"
+        >
           <template v-if="value.options">
-            <component :is="value.subComponent" v-for="(option, key) in value.options" :key="key" :value="option.value">
+            <component
+              :is="value.subComponent"
+              v-for="(option, k) in value.options" :key="k"
+              :value="option.value"
+            >
               <render-vnode :vNode="option.text"></render-vnode>
             </component>
           </template>
@@ -16,11 +29,12 @@
 </template>
 
 <script lang="ts">
-import { computed, PropType, defineComponent, VNode } from "vue";
-import { reduce } from "lodash";
-import { mapPropsToForms } from "../propsMap";
-import { TextComponentProps } from "../defaultProps";
-import RenderVnode from "./RenderVnode";
+import { computed, defineComponent, PropType, VNode } from 'vue'
+import { reduce } from 'lodash'
+import { PropsToForms, mapPropsToForms } from '../propsMap'
+import { TextComponentProps } from '../defaultProps'
+import RenderVnode from './RenderVnode'
+import ColorPicker from './ColorPicker.vue'
 interface FormProps {
   component: string;
   subComponent?: string;
@@ -33,7 +47,7 @@ interface FormProps {
   events: { [key: string]: (e: any) => void };
 }
 export default defineComponent({
-  name: "props-table",
+  name: 'props-table',
   props: {
     props: {
       type: Object as PropType<TextComponentProps>,
@@ -41,46 +55,39 @@ export default defineComponent({
     }
   },
   components: {
-    RenderVnode
+    RenderVnode,
+    ColorPicker
   },
-  emits: ["change"],
+  emits: ['change'],
   setup(props, context) {
-    console.log("props", props);
     const finalProps = computed(() => {
-      return reduce(
-        props.props,
-        (res, value, key) => {
-          const newKey = key as keyof TextComponentProps;
-          const item = mapPropsToForms[newKey];
-          if (item) {
-            const { valueProp = "value", eventName = "change", initialTransform, afterTransform } = item;
-            const newItem: FormProps = {
-              ...item,
-              value: initialTransform ? initialTransform(value) : value,
-              valueProp,
-              eventName,
-              events: {
-                [eventName]: (e: any) => {
-                  context.emit("change", { key, value: afterTransform ? afterTransform(e) : e });
-                }
-              }
-            };
-            res[newKey] = newItem;
+      return reduce(props.props, (result, value, key) => {
+        const newKey = key as keyof TextComponentProps
+        const item = mapPropsToForms[newKey]
+        if (item) {
+          const { valueProp = 'value', eventName = 'change', initalTransform, afterTransform } = item
+          const newItem: FormProps = {
+            ...item,
+            value: initalTransform ? initalTransform(value) : value,
+            valueProp,
+            eventName,
+            events: {
+              [eventName]: (e: any) => { context.emit('change', { key, value: afterTransform? afterTransform(e) : e })}
+            }
           }
-          return res;
-        },
-        {} as { [key: string]: FormProps }
-      );
-    });
-    console.log("finalProps", finalProps.value);
+          result[newKey] = newItem
+        }
+        return result
+      }, {} as { [key: string]: FormProps })
+    })
     return {
       finalProps
-    };
+    }
   }
-});
+})
 </script>
 
-<style lang="scss" scoped>
+<style>
 .prop-item {
   display: flex;
   margin-bottom: 10px;
@@ -92,4 +99,5 @@ export default defineComponent({
 .prop-component {
   width: 70%;
 }
+
 </style>

@@ -1,5 +1,4 @@
-/* eslint-disable */
-import { mapValues, without } from "lodash-es";
+import { mapValues, without } from 'lodash-es'
 export interface CommonComponentProps {
   // actions
   actionType: string;
@@ -25,33 +24,31 @@ export interface CommonComponentProps {
   top: string;
   right: string;
 }
-
 export const commonDefaultProps: CommonComponentProps = {
   // actions
-  actionType: "",
-  url: "",
+  actionType: '',
+  url: '',
   // size
-  height: "",
-  width: "",
-  paddingLeft: "0px",
-  paddingRight: "0px",
-  paddingTop: "0px",
-  paddingBottom: "0px",
+  height: '',
+  width: '373px',
+  paddingLeft: '0px',
+  paddingRight: '0px',
+  paddingTop: '0px',
+  paddingBottom: '0px',
   // border type
-  borderStyle: "none",
-  borderColor: "#000",
-  borderWidth: "0",
-  borderRadius: "0",
+  borderStyle: 'none',
+  borderColor: '#000',
+  borderWidth: '0',
+  borderRadius: '0',
   // shadow and opacity
-  boxShadow: "0 0 0 #000000",
-  opacity: "1",
+  boxShadow: '0 0 0 #000000',
+  opacity: '1',
   // position and x,y
-  position: "absolute",
-  left: "0",
-  top: "0",
-  right: "0"
-};
-
+  position: 'absolute',
+  left: '0',
+  top: '0',
+  right: '0'
+}
 export interface TextComponentProps extends CommonComponentProps {
   text: string;
   fontSize: string;
@@ -64,27 +61,34 @@ export interface TextComponentProps extends CommonComponentProps {
   color: string;
   backgroundColor: string;
 }
-
+export interface ImageComponentProps extends CommonComponentProps {
+  src: string;
+}
 export const textDefaultProps: TextComponentProps = {
   // basic props - font styles
-  text: "正文内容",
-  fontSize: "14px",
-  fontFamily: "",
-  fontWeight: "normal",
-  fontStyle: "normal",
-  textDecoration: "none",
-  lineHeight: "1",
-  textAlign: "left",
-  color: "#000000",
-  backgroundColor: "",
+  text: '正文内容',
+  fontSize: '14px',
+  fontFamily: '',
+  fontWeight: 'normal',
+  fontStyle: 'normal',
+  textDecoration: 'none',
+  lineHeight: '1',
+  textAlign: 'left',
+  color: '#000000',
+  backgroundColor: '',
   ...commonDefaultProps
-};
-export const textStylePropNames = without(Object.keys(textDefaultProps), "actionType", "text", "url");
-export const transformToComponentProps = <T extends { [key: string]: any }>(props: T) => {
-  return mapValues(props, item => {
+}
+export const imageDefaultProps: ImageComponentProps = {
+  src: 'test.url',
+  ...commonDefaultProps
+}
+export const textStylePropNames = without(Object.keys(textDefaultProps), 'actionType', 'url', 'text')
+export const imageStylePropsNames = without(Object.keys(imageDefaultProps), 'src')
+export const transformToComponentProps = <T extends {}>(props: T) => {
+  return mapValues(props, (item) => {
     return {
-      type: item.constructor,
+      type: (item as any).constructor as StringConstructor,
       default: item
-    };
-  });
-};
+    }
+  })
+}

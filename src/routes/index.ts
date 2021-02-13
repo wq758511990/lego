@@ -9,11 +9,11 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'Index',
+      name: 'index',
       component: Index,
       children: [
-       {path: '', name: 'home', component: Home},
-       {path: 'template/:id', name: 'template', component: TemplateDetail},
+        { path: '', name: 'home', component: Home },
+        { path: 'template/:id', name: 'template', component: TemplateDetail }
       ]
     },
     {
