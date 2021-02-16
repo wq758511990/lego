@@ -18,7 +18,9 @@ module.exports = {
   rules: {
     'semi': ['error', 'never'],
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off'
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    "@typescript-eslint/member-delimiter-style": ["warn", { "multiline": { "delimiter": "none" } }],
+    '@typescript-eslint/no-explicit-any': 'off'
   },
 
   overrides: [

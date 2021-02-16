@@ -3,7 +3,7 @@ import { computed, defineComponent, PropType, VNode } from 'vue'
 import { reduce } from 'lodash'
 import { PropsToForms, mapPropsToForms } from '../propsMap'
 import { TextComponentProps } from '../defaultProps'
-import { Input, InputNumber, Slider, Radio, Select  } from 'ant-design-vue'
+import { Input, InputNumber, Slider, Radio, Select } from 'ant-design-vue'
 const mapToComponent = {
   'a-textarea': Input.TextArea,
   'a-input-number': InputNumber,
@@ -51,7 +51,7 @@ export default defineComponent({
             valueProp,
             eventName,
             events: {
-              ['on' + capitalizeFirstLetter(eventName)]: (e: any) => { context.emit('change', { key, value: afterTransform? afterTransform(e) : e })}
+              ['on' + capitalizeFirstLetter(eventName)]: (e: any) => { context.emit('change', { key, value: afterTransform ? afterTransform(e) : e }) }
             }
           }
           result[newKey] = newItem
@@ -59,7 +59,7 @@ export default defineComponent({
         return result
       }, {} as { [key: string]: FormProps })
     })
-    return () => 
+    return () =>
       <div class="props-table">
         {
           Object.keys(finalProps.value).map(key => {
@@ -73,13 +73,13 @@ export default defineComponent({
             }
             return (
               <div key={key} class="prop-item">
-                { value.text && <span class="label">{value.text}</span> }
+                { value.text && <span class="label">{value.text}</span>}
                 <div class="prop-component">
                   <ComponentName {...props}>
-                    { value.options && 
+                    {value.options &&
                       value.options.map(option => {
                         return (
-                        <SubComponent value={option.value}>{option.text}</SubComponent>
+                          <SubComponent value={option.value}>{option.text}</SubComponent>
                         )
                       })
                     }
