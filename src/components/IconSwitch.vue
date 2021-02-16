@@ -26,7 +26,7 @@ interface FontProp {
   isHight?: boolean
 }
 const fontStyles: FontProp[] = [
-  { text: "黑体", propName: "fontFamily", value: "bold", iconText: "B" },
+  { text: "黑体", propName: "fontWeight", value: "bold", iconText: "B" },
   { text: "斜体", propName: "fontStyle", value: "italic", iconText: "I" },
   {
     text: "下划线",
