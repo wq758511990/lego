@@ -1,6 +1,11 @@
 <template>
   <div class="create-component-list">
-    <div v-for="(item, index) in list" :key="index" class="component-item" @click="onItemClick(item)">
+    <div
+      v-for="(item, index) in list"
+      :key="index"
+      class="component-item"
+      @click="onItemClick(item)"
+    >
       <l-text v-bind="item"></l-text>
     </div>
   </div>
@@ -8,15 +13,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { v4 as uuidv4 } from 'uuid'
-import { message } from 'ant-design-vue'
-import LText from '../components/LText.vue'
-import StyledUploader from '../components/StyledUploader.vue'
-import { ComponentData } from '../store/editor'
-import { imageDefaultProps, TextComponentProps } from '../defaultProps'
-import { UploadResp } from '../extraType'
-import { getImageDimensions } from '../helper'
+import { defineComponent } from "vue"
+import { v4 as uuidv4 } from "uuid"
+import { message } from "ant-design-vue"
+import LText from "../components/LText.vue"
+import StyledUploader from "../components/StyledUploader.vue"
+import { ComponentData } from "../store/editor"
+import { imageDefaultProps, TextComponentProps } from "../defaultProps"
+import { UploadResp } from "../extraType"
+import { getImageDimensions } from "../helper"
 export default defineComponent({
   props: {
     list: {
@@ -24,8 +29,8 @@ export default defineComponent({
       required: true
     }
   },
-  emits: ['on-item-click'],
-  name: 'components-list',
+  emits: ["on-item-click"],
+  name: "components-list",
   components: {
     LText,
     StyledUploader
@@ -33,28 +38,27 @@ export default defineComponent({
   setup(props, context) {
     const onItemClick = (props: TextComponentProps) => {
       const componentData: ComponentData = {
-        name: 'l-text',
+        name: "l-text",
         id: uuidv4(),
         props
       }
-      context.emit('on-item-click', componentData)
+      context.emit("on-item-click", componentData)
     }
     const onImageUploaded = (data: { resp: UploadResp; file: File }) => {
       const { resp, file } = data
       const componentData: ComponentData = {
-        name: 'l-image',
+        name: "l-image",
         id: uuidv4(),
         props: {
           ...imageDefaultProps
         }
       }
-      message.success('上传成功')
+      message.success("上传成功")
       componentData.props.src = resp.data.url
       getImageDimensions(file).then(({ width }) => {
-        console.log(width)
         const maxWidth = 373
-        componentData.props.width = ((width > maxWidth) ? maxWidth : width) + 'px'
-        context.emit('on-item-click', componentData)
+        componentData.props.width = (width > maxWidth ? maxWidth : width) + "px"
+        context.emit("on-item-click", componentData)
       })
     }
     return {

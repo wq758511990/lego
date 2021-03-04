@@ -81,7 +81,6 @@ export default defineComponent({
                 [eventName]: (e: any) => {
                   const { isCustom } = e
                   if (isCustom) {
-                    console.log("e", e)
                     context.emit("change", { key: e.key, value: e.value })
                   } else {
                     context.emit("change", {

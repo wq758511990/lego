@@ -89,7 +89,6 @@ export default defineComponent({
   },
   setup(props) {
     const interInstance = getCurrentInstance()
-    console.log("interInstance", interInstance)
     const fileInput = ref<null | HTMLInputElement>(null)
     const filesList = ref<UploadFile[]>([])
     const isDragOver = ref<boolean>(false)
@@ -126,7 +125,6 @@ export default defineComponent({
         })
         .then(resp => {
           readyFile.status = "success"
-          console.log(resp.data)
           readyFile.resp = resp.data
         })
         .catch(() => {
